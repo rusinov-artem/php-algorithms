@@ -1,0 +1,19 @@
+{
+    "name": "rusinov/algorithms",
+    "description": "algorithms learning exercises",
+    "authors": [
+        {
+            "name": "RusinovArtem",
+            "email": "ar@moderntoken.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rusinov\\Algorithm\\Test\\":"test",
+            "Rusinov\\Algorithm\\": "src"
+        }
+    }
+}
