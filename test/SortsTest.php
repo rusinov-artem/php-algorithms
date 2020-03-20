@@ -14,7 +14,7 @@ class SortsTest extends \PHPUnit\Framework\TestCase
 
         shuffle($data);
 
-        Sort::selectSort($data);
+        Sort::select($data);
 
         for ($i = 1; $i < 300; $i++){
             static::assertTrue($data[$i]< $data[$i-1]);
@@ -30,7 +30,22 @@ class SortsTest extends \PHPUnit\Framework\TestCase
 
         shuffle($data);
 
-        Sort::insertSort($data);
+        Sort::insert($data);
+
+        for ($i = 1; $i < 300; $i++){
+            static::assertTrue($data[$i]< $data[$i-1]);
+        }
+    }
+
+    public function testShellSort(){
+        $data = [];
+        for($i = 0; $i< 300; $i++){
+            $data[$i] = $i;
+        }
+
+        shuffle($data);
+
+        Sort::shell($data);
 
         for ($i = 1; $i < 300; $i++){
             static::assertTrue($data[$i]< $data[$i-1]);

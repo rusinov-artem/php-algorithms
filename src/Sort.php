@@ -4,7 +4,7 @@ namespace Rusinov\Algorithm;
 
 class Sort
 {
-    public static function selectSort(array &$data){
+    public static function select(array &$data){
         $i = 0; $count = count($data);
         for($i = 0; $i<($count-1); $i++){
             $maxI = static::maxI($data, $i, ($count-1));
@@ -14,7 +14,7 @@ class Sort
         }
     }
 
-    public static function insertSort(array &$data){
+    public static function insert(array &$data){
         $i = 1;
         $j = 1;
         $maxIndex = count($data) - 1;
@@ -25,11 +25,27 @@ class Sort
         }while($i<=$maxIndex);
     }
 
-    public static function handleSS(&$data, $j){
-        while($j>=1 && $data[$j]>$data[$j-1]){
-            static::swap($data, $j, $j-1);
-            $j--;
+    public static function shell(array &$data)
+    {
+        $maxIndex = count($data) - 1;
+        $h = 1;
+        while($h < round($maxIndex/3)){ $h=3*$h + 1; }
+
+        while($h>=1){
+            for($i=$h; $i<=$maxIndex; $i++){
+                static::handleSS($data, $i, $h);
+            }
+            $h=(int)round($h/3);
         }
+    }
+
+    public static function handleSS(&$data, $j, $h = 1){
+
+        while($j>=$h && $data[$j]>$data[$j-$h]){
+            static::swap($data, $j, $j-$h);
+            $j=$j-$h;
+        }
+
     }
 
     public static function swap(&$data, $i, $j){
