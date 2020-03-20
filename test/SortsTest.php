@@ -21,4 +21,19 @@ class SortsTest extends \PHPUnit\Framework\TestCase
         }
 
     }
+
+    public function testInsertSort(){
+        $data = [];
+        for($i = 0; $i< 300; $i++){
+            $data[$i] = $i;
+        }
+
+        shuffle($data);
+
+        Sort::insertSort($data);
+
+        for ($i = 1; $i < 300; $i++){
+            static::assertTrue($data[$i]< $data[$i-1]);
+        }
+    }
 }
