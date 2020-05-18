@@ -15,16 +15,16 @@ class unionQF{
     }
 
     public function union($p, $q){
-
-        $valq = $this->data[$q];
-        $valp = $this->data[$p];
-        foreach ($this->data as $k=>$v){
-            if($v == $valq){
-                $this->data[$k] = $valp;
-            }
-        }
+       $count = count($this->data);
+        $var = $this->data[$p];
+       for($i = 0; $i < $count; $i++)
+       {
+           if($this->data[$i] == $var){
+               $this->data[$i] = $this->data[$q];
+           }
+       }
     }
     public function isConnected($p, $q){
-        return $this->data[$p] === $this->data[$q];
+       return $this->data[$p] == $this->data[$q];
     }
 }

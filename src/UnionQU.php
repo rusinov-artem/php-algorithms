@@ -16,25 +16,29 @@ class UnionQU
     }
 
     public function union($p, $q){
-        if($this->size[$p] > $this->size[$q]){
-            $this->data[$q] = $this->root($p);
-            $this->size[$p] += $this->size[$q];
-            $this->size[$q] = $this->size[$p];
-        }
-        else{
-            $this->data[$p] = $this->root($q);
-            $this->size[$q] += $this->size[$p];
-            $this->size[$p] = $this->size[$q];
-        }
+       if($this->size[$p] > $this->size[$q]){
+           $this->un($q, $p);
+       }else{
+           $this->un($p, $q);
+       }
+    }
+
+    private function un($p,$q)
+    {
+        $rootQ = $this->root($q);
+        $rootP = $this->root($p);
+        $this->data[$rootP] = $rootQ;
+        $this->size[$rootQ] += $this->size[$rootQ];
     }
 
     protected function root($p){
-        if($this->data[$p] == $p){
-            return $p;
+
+        $index = $p;
+        while($this->data[$index] != $index)
+        {
+            $index = $this->data[$index];
         }
-        else {
-            return $this->root($this->data[$p]);
-        }
+        return $index;
     }
 
     public function isConnected($p, $q){
