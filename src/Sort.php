@@ -55,14 +55,83 @@ class Sort
     }
 
     public static function maxI(array $data, int $start, int $end){
-    $max = $data[$start];
-    $index = $start;
-    for($i = $start+1; $i<=$end; $i++){
-        if($data[$i] > $max){
-            $max = $data[$i];
-            $index = $i;
+        $max = $data[$start];
+        $index = $start;
+        for($i = $start+1; $i<=$end; $i++){
+            if($data[$i] > $max){
+                $max = $data[$i];
+                $index = $i;
+            }
+        }
+        return $index;
+    }
+
+    public static function mergeSorted($arr1, $arr2){
+        $count = count($arr1) + count($arr2);
+        $result = [];
+        for($i = 0; $i < $count; $i++){
+
+            if(false === current($arr1)){
+                $result[$i] = current($arr2); next($arr2);
+                continue;
+            }
+
+            if(false === current($arr2)){
+                $result[$i] = current($arr1); next($arr1);
+                continue;
+            }
+
+            if(current($arr1) < current($arr2)){
+                $result[$i] = current($arr1);
+                next($arr1);
+            }
+            else{
+                $result[$i] = current($arr2);
+                next($arr2);
+            }
+        }
+        return $result;
+    }
+
+    public static function merge(array &$data)
+    {
+        $ax = [];
+        $count = count($data);
+        for($sz = 1; $sz<$count; $sz = 2 * $sz ){
+            for($offset = 0; $offset + $sz < $count  ; $offset+= 2 * $sz){
+                 $hi = $offset + 2 * $sz -1;
+                 $mid = $offset + $sz;
+                 if($hi >= $count) $hi = $count -1 ;
+                 static::mergeSorted2($data, $ax, $offset, $mid, $hi );
+            }
         }
     }
-    return $index;
-}
+
+    public static function mergeSorted2(&$arr, &$ax,  $lo, $mid, $hi){
+
+        for($i = $lo; $i <= $hi; $i++){
+            $ax[$i] = $arr[$i];
+        }
+        $count = $hi - $lo + 1;
+
+        $j = $lo; $k = $mid;
+        for($i = 0; $i<$count; $i++){
+
+            if($j>=$mid){
+                $arr[$lo + $i] = $ax[$k]; $k++;
+                continue;
+            }
+
+            if($k>$hi){
+                $arr[$lo + $i ] = $ax[$j]; $j++;
+                continue;
+            }
+
+            if($ax[$j] < $ax[$k]){
+                $arr[$lo + $i] = $ax[$j]; $j++;
+            }else{
+                $arr[$lo + $i] = $ax[$k]; $k++;
+            }
+        }
+    }
 }
