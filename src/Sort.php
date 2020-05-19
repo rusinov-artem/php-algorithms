@@ -4,6 +4,8 @@ namespace Rusinov\Algorithm;
 
 class Sort
 {
+    public static $swap = 0;
+
     public static function select(array &$data){
         $count = count($data);
         for ($i = 0; $i < ($count - 1); $i++) {
@@ -51,9 +53,11 @@ class Sort
     }
 
     public static function swap(&$data, $i, $j){
-        $t = $data[$i];
-        $data[$i] = $data[$j];
-        $data[$j] = $t;
+         static::$swap++;
+         if($i == $j) return;
+         $data[$i] = $data[$i] ^ $data[$j];
+         $data[$j] = $data[$i] ^ $data[$j];
+         $data[$i] = $data[$i] ^ $data[$j];
     }
 
     public static function maxI(array $data, int $start, int $end){
@@ -195,5 +199,48 @@ class Sort
 
        return $j;
 
+    }
+
+    public static function quick2(array &$data, $lo = 0, $hi = null){
+
+        if(\is_null($hi)){
+            $hi = count($data) - 1;
+        }
+
+        if($hi <= $lo) return;
+
+
+        $lt = $lo;
+        $gt = $hi;
+        $i = $lo;
+        $pValue = $data[$lo];
+
+        if(static::isSorted($data, $lo, $hi)){
+            return;
+        }
+
+        while($gt>=$i){
+            $cmp = $data[$i] <=> $pValue;
+            if( $cmp < 0 ){ static::swap( $data, $i++, $lt++ ); }
+            elseif ( $cmp > 0){ static::swap( $data, $i, $gt-- ); }
+            else { $i++; }
+        }
+
+
+
+        static::quick2($data, $lo, $lt);
+        static::quick2($data, $lt+1, $hi);
+
+    }
+
+    public static function isSorted(array &$data, $lo, $hi){
+
+        $r = true;
+        for($i = $lo+1; $i<= $hi; $i++){
+            if($data[$i-1] > $data[$i]){
+                $r = false; break;
+            }
+        }
+        return $r;
     }
 }
