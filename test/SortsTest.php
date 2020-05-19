@@ -69,16 +69,18 @@ class SortsTest extends \PHPUnit\Framework\TestCase
 
     public function testQuickSort(){
         $data = [];
-        for($i = 0; $i< 300; $i++){
+        $capacity = 5000;
+        for($i = 0; $i< $capacity; $i++){
             $data[$i] = $i;
         }
 
         shuffle($data);
+        //$data = [0,4,3,1,2];
 
         Sort::quick($data);
 
-        for ($i = 1; $i < 300; $i++){
-            static::assertTrue($data[$i]< $data[$i-1]);
+        for ($i = 1; $i < $capacity; $i++){
+            static::assertTrue($data[$i] > $data[$i-1]);
         }
     }
 
@@ -87,6 +89,6 @@ class SortsTest extends \PHPUnit\Framework\TestCase
         $arr2 = [2,4,6,8];
         $r = Sort::mergeSorted($arr1, $arr2);
         static::assertEquals([1,2,3,4,5,6,7,8,9], $r);
-
     }
+
 }

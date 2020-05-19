@@ -116,6 +116,7 @@ class Sort
         for ($i = $lo; $i <= $hi; $i++) {
             $ax[$i] = $arr[$i];
         }
+
         $count = $hi - $lo + 1;
 
         $j = $lo;
@@ -142,5 +143,57 @@ class Sort
                 $k++;
             }
         }
+    }
+
+    public static function quick(array &$data, $lo = 0, $hi = null)
+    {
+        if(\is_null($hi)){
+            $hi = count($data) -1;
+        }
+
+        if($hi - $lo < 2){
+            if($data[$lo] > $data[$hi])
+            {
+                static::swap($data, $lo, $hi);
+            }
+            return $lo;
+        }
+
+        $r = static::qPartial($data, $lo, $hi);
+
+
+        static::quick($data, $lo, $r);
+        if($r <= $hi)
+            static::quick($data, $r, $hi);
+
+    }
+
+    public static function qPartial(array &$array, $lo, $hi){
+
+        $t = $array[$lo];
+        $j = $lo + 1;
+        $k = $hi;
+
+       while($j < $k){
+
+           while($array[$k]>$t && $k > $j){
+               $k--;
+           }
+
+           while($array[$j] < $t && $j < $k){
+               $j++;
+           }
+
+           if($array[$j] > $array[$k]){
+               static::swap($array, $j, $k);
+           }
+
+       }
+
+       if($array[$lo]>$array[$j])
+            static::swap($array, $lo, $j);
+
+       return $j;
+
     }
 }
